@@ -11,8 +11,10 @@ export default function SingleComponent(props){
         }).catch(err=>alert(err))
     }
     useEffect(()=>{
-        fetchData()
+       fetchData()
+       // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
+    
     return(
         <div className="container">
             <h1>{blog.title}</h1>

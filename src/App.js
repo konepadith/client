@@ -1,7 +1,7 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import swal from "sweetalert2"
 
 function App() {
   const [blogs, setBlogs] = useState([])
@@ -14,6 +14,21 @@ function App() {
   useEffect(() => {
     fetchData()
   }, [])
+
+  const confitmDelete=(slug)=>{
+    swal.fire({
+      title:"Comfirm deleted",
+      icon:"warning",
+      showCancelButton:true
+    }).then((result)=>{
+      if (result.isConfirmed) {
+          deleteBlog(slug)
+      }
+    })
+  }
+  const deleteBlog=(slug)=>{
+    swal.fire("Delete!","Delete Succesfully","success")
+  }
   return (
     <div className="container p-5">
       {blogs.map((blogs, index) => {
@@ -22,6 +37,8 @@ function App() {
             <Link to={`/blog/${blogs.slug}`}><h2>{blogs.title}</h2></Link>
             <p>{blogs.content.substring(0,180)}</p>
             <p className="text-muted">Author:{blogs.author},publish:{new Date(blogs.createdAt).toLocaleString()}</p>
+            <button className="btn btn-outline-success" >Update</button>&nbsp;
+            <button className="btn btn-outline-danger" onClick={()=>confitmDelete(blogs.slug)}>Delete</button>
           </div>
         </div>
       })}

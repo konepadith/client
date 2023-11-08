@@ -1,10 +1,11 @@
-import { BrowserRouter,Routes,Route,Navigate } from "react-router-dom";
+import { BrowserRouter,Routes,Route } from "react-router-dom";
 import App from "./App";
 import FormCompoent from "./conponents/FormComponent";
 import NotFound from "./conponents/NotFound";
 import NavbarComponent from "./conponents/NavbarComponent";
 import SingleComponent from "./conponents/SingleComponent"
 const MyRoute=()=>{
+    
     return(
         <BrowserRouter>
         <NavbarComponent/>
