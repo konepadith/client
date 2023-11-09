@@ -39,8 +39,8 @@ function App() {
           <div className="col pt-3 pb-2">
             <Link to={`/blog/${blogs.slug}`}><h2>{blogs.title}</h2></Link>
             <p>{blogs.content.substring(0,180)}</p>
-            <p className="text-muted">Author:{blogs.author},publish:{new Date(blogs.createdAt).toLocaleString()}</p>
-            <button className="btn btn-outline-success" >Update</button>&nbsp;
+            <p className="text-muted">Author: {blogs.author}, publish: {new Date(blogs.createdAt).toLocaleString()}</p>
+            <Link  className="btn btn-outline-success" to={`/blog/edit/${blogs.slug}`}>Update</Link>&nbsp;
             <button className="btn btn-outline-danger" onClick={()=>confitmDelete(blogs.slug)}>Delete</button>
           </div>
         </div>

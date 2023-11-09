@@ -3,15 +3,17 @@ import axios from "axios"
 import Swal from 'sweetalert2'
 
 export default function FormCompoent(){
-    const [state,setState]=useState({
+    const [blog,setBlog]=useState({
         title:"",
         content:"",
         author:""
     })
     const inputValue=name=>event=>{
-        setState({...state,[name]:event.target.value})
+        setBlog({...blog,[name]:event.target.value})
     }
-    const {title,content,author}=state
+
+    //defactoring useState for easier use
+    const {title,content,author}=blog
 
     const submitForm=(e)=>{
         e.preventDefault();
@@ -22,7 +24,7 @@ export default function FormCompoent(){
                 text: "You clicked the button!",
                 icon: "success"
               });
-              setState({...state,title:"",content:"",author:""})
+              setBlog({...blog,title:"",content:"",author:""})
         }).catch(err=>{
             Swal.fire({
                 title: "successfull",
