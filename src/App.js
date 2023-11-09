@@ -27,7 +27,10 @@ function App() {
     })
   }
   const deleteBlog=(slug)=>{
-    swal.fire("Delete!","Delete Succesfully","success")
+    axios.delete(`${process.env.REACT_APP_API}/blog/${slug}`).then(response=>{
+      if(response.status === 200) {swal.fire("Delete!","Delete Succesfully","success")}
+      fetchData()
+    }).catch(err => swal.fire("Not Found!","Document Not FOund","question"))
   }
   return (
     <div className="container p-5">
