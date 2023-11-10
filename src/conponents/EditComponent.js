@@ -2,23 +2,32 @@ import { useState,useEffect } from "react"
 import axios from "axios"
 import { useParams } from "react-router-dom"
 import Swal from "sweetalert2"
+import ReactQuill from "react-quill"
+import "react-quill/dist/quill.snow.css"
 
 export default function EditComponent(props){
     const params = useParams()
     const [blog,setBlog]=useState({
         title:"",
-        content:"",
         author:"",
         slug:""
     })
-    const {title,content,author,slug}=blog
+    const {title,author,slug}=blog
+
+    const [content,setContent]=useState('')
+
     const inputValue=name=>event=>{
         setBlog({...blog,[name]:event.target.value})
+    }
+    const submitContent=(event)=>{
+        setContent(event)
     }
 
     const fetchData =()=>{
         axios.get(`${process.env.REACT_APP_API}/blog/${params.slug}`).then(response=>{
-            setBlog(response.data)
+            const {title,content,author,slug} = response.data
+            setBlog({...blog,title,author,slug})
+            setContent(content)
         }).catch(err=>alert(err))
     }
 
@@ -35,7 +44,7 @@ export default function EditComponent(props){
             </div>
             <div className="form-group">
                 <label>Bloc Content</label>
-                <input type="textarea" className="form-control" value={content} onChange={inputValue("content")}/>
+                <ReactQuill value={content} onChange={submitContent} theme="snow" className="pb-5 mb-3" style={{border:"1px solid #666"}}/>
             </div>
             <div className="form-group">
                 <label>Bloc Content</label>
@@ -56,7 +65,8 @@ export default function EditComponent(props){
                 icon: "success"
               });
               const {title,content,author,slug}=response.data
-              setBlog({...blog,title,content,author,slug})
+              setBlog({...blog,title,author,slug})
+              setContent(content)
         }).catch(err=>{
             Swal.fire({
                 title: "succeNotifyationssfull",

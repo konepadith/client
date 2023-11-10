@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useState,useEffect } from "react"
 import { useParams } from "react-router-dom"
+import parse from 'html-react-parser'
 
 export default function SingleComponent(props){
     const {slug} = useParams()
@@ -14,11 +15,10 @@ export default function SingleComponent(props){
        fetchData()
        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
-    
     return(
         <div className="container">
             <h1>{blog.title}</h1>
-            <p>{blog.content}</p>
+            <p>{parse(`${blog.content}`)}</p>
             <p className="text-muted">Author:{blog.author},publish:{new Date(blog.createdAt).toLocaleString()}</p>
         </div>
 

@@ -5,6 +5,7 @@ import NotFound from "./conponents/NotFound";
 import NavbarComponent from "./conponents/NavbarComponent";
 import SingleComponent from "./conponents/SingleComponent";
 import EditComponent from "./conponents/EditComponent";
+import LoginComponent from "./conponents/LoginComponent";
 const MyRoute=()=>{
     
     return(
@@ -16,6 +17,7 @@ const MyRoute=()=>{
             <Route path="*" element={<NotFound/>}></Route> 
             <Route path="/blog/:slug" element={<SingleComponent/>}></Route>
             <Route path="/blog/edit/:slug" element={<EditComponent/>}></Route>
+            <Route path="/login" element={<LoginComponent/>}></Route>
         </Routes>
         </BrowserRouter>
     )

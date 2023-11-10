@@ -1,11 +1,12 @@
 import { useState } from "react"
 import axios from "axios"
 import Swal from 'sweetalert2'
+import ReactQuill from "react-quill"
+import "react-quill/dist/quill.snow.css"
 
 export default function FormCompoent(){
     const [blog,setBlog]=useState({
         title:"",
-        content:"",
         author:""
     })
     const inputValue=name=>event=>{
@@ -13,18 +14,23 @@ export default function FormCompoent(){
     }
 
     //defactoring useState for easier use
-    const {title,content,author}=blog
+    const {title,author}=blog
 
+    const [content,setContent]=useState('')
+
+    const submitContent=(event)=>{
+        setContent(event)
+    }
     const submitForm=(e)=>{
         e.preventDefault();
-        console.log("API URL = ",process.env.REACT_APP_API)
         axios.post(`${process.env.REACT_APP_API}/create`,{title,content,author}).then(response=>{
             Swal.fire({
                 title: "successfull",
                 text: "You clicked the button!",
                 icon: "success"
               });
-              setBlog({...blog,title:"",content:"",author:""})
+              setBlog({...blog,title:"",author:""})
+              setContent('')
         }).catch(err=>{
             Swal.fire({
                 title: "successfull",
@@ -42,8 +48,8 @@ export default function FormCompoent(){
                     <input type="text" className="form-control" value={title} onChange={inputValue("title")} />
                 </div>
                 <div className="form-group">
-                    <label>Detail</label>
-                    <textarea className="form-control" value={content} onChange={inputValue("content")}></textarea>
+                <label>Blog Content</label>
+                    <ReactQuill value={content} onChange={submitContent} theme="snow" className="pb-5 mb-3" placeholder="blog of content" style={{border:"1px solid #666"}}/>
                 </div>
                 <div className="form-group">
                     <label>Author</label>
