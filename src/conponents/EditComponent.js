@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom"
 import Swal from "sweetalert2"
 import ReactQuill from "react-quill"
 import "react-quill/dist/quill.snow.css"
-
+import NavbarComponent from "./NavbarComponent";
 export default function EditComponent(props){
     const params = useParams()
     const [blog,setBlog]=useState({
@@ -39,6 +39,7 @@ export default function EditComponent(props){
      const showUpdateForm=()=>(
         <form onSubmit={submitForm}>
             <div className="form-group">
+            <NavbarComponent/>
                 <label>Blog Title</label>
                 <input type="text" className="form-control" value={title} onChange={inputValue("title")}/>
             </div>

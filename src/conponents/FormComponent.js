@@ -1,10 +1,10 @@
-import { useState } from "react"
+import {  useState } from "react"
 import axios from "axios"
 import Swal from 'sweetalert2'
 import ReactQuill from "react-quill"
 import "react-quill/dist/quill.snow.css"
-
-export default function FormCompoent(){
+import NavbarComponent from "./NavbarComponent";
+export default function FormComponent(){
     const [blog,setBlog]=useState({
         title:"",
         author:""
@@ -39,8 +39,10 @@ export default function FormCompoent(){
               });
         })
     }
+
     return(
         <div className="container p-5">
+            <NavbarComponent/>
             <h1>Hello Form Component</h1>
             <form onSubmit={submitForm}>
                 <div className="form-group">

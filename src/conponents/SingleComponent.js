@@ -2,7 +2,7 @@ import axios from "axios"
 import { useState,useEffect } from "react"
 import { useParams } from "react-router-dom"
 import parse from 'html-react-parser'
-
+import NavbarComponent from "./NavbarComponent";
 export default function SingleComponent(props){
     const {slug} = useParams()
     const [blog,setBlog]=useState({})
@@ -17,6 +17,7 @@ export default function SingleComponent(props){
     },[])
     return(
         <div className="container">
+            <NavbarComponent/>
             <h1>{blog.title}</h1>
             <p>{parse(`${blog.content}`)}</p>
             <p className="text-muted">Author:{blog.author},publish:{new Date(blog.createdAt).toLocaleString()}</p>

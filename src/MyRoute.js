@@ -1,24 +1,27 @@
-import { BrowserRouter,Routes,Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./App";
 import FormCompoent from "./conponents/FormComponent";
 import NotFound from "./conponents/NotFound";
-import NavbarComponent from "./conponents/NavbarComponent";
+
 import SingleComponent from "./conponents/SingleComponent";
 import EditComponent from "./conponents/EditComponent";
 import LoginComponent from "./conponents/LoginComponent";
-const MyRoute=()=>{
-    
-    return(
+
+import AdminRoute from "./AdminRoute";
+const MyRoute = () => {
+
+    return (
         <BrowserRouter>
-        <NavbarComponent/>
-        <Routes>
-            <Route path="/" element={<App/>}></Route>
-            <Route path="/create" element={<FormCompoent/>}></Route>  
-            <Route path="*" element={<NotFound/>}></Route> 
-            <Route path="/blog/:slug" element={<SingleComponent/>}></Route>
-            <Route path="/blog/edit/:slug" element={<EditComponent/>}></Route>
-            <Route path="/login" element={<LoginComponent/>}></Route>
-        </Routes>
+            <Routes>
+                <Route path="/" element={<App />} />
+                <Route element={<AdminRoute />}>
+                    <Route element={<FormCompoent />} path="/create" exact />
+                    <Route element={<EditComponent />} path="/blog/edit/:slug" exact />
+                </Route>
+                <Route path="*" element={<NotFound />} />
+                <Route path="/blog/:slug" element={<SingleComponent />} />
+                <Route path="/login" element={<LoginComponent />} />
+            </Routes>
         </BrowserRouter>
     )
 }
