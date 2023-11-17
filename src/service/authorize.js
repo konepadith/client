@@ -2,8 +2,9 @@
 export  function authenticate(response,next){
     if(window !== 'undefined'){
         //store data to session storage
-        sessionStorage.setItem("token",JSON.stringify(response.data.token))
-        sessionStorage.setItem("username",JSON.stringify(response.data.username))
+        
+        sessionStorage.setItem("token",response.data.token)
+        sessionStorage.setItem("username",response.data.username)
     }
     next()
 }
@@ -11,7 +12,7 @@ export  function authenticate(response,next){
 export const getToken=()=>{
     if (window !== "undefined") {
         if(sessionStorage.getItem("token")){
-            return JSON.stringify(sessionStorage.getItem("token"))
+            return sessionStorage.getItem("token")
         }else{
             return false
         }
@@ -20,7 +21,7 @@ export const getToken=()=>{
 export const getUsername=()=>{
     if (window !== "undefined") {
         if(sessionStorage.getItem("username")){
-            return JSON.stringify(sessionStorage.getItem("username"))
+            return sessionStorage.getItem("username")
         }else{
             return false
         }

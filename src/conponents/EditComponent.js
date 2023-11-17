@@ -5,6 +5,7 @@ import Swal from "sweetalert2"
 import ReactQuill from "react-quill"
 import "react-quill/dist/quill.snow.css"
 import NavbarComponent from "./NavbarComponent";
+import { getToken } from "../service/authorize"
 export default function EditComponent(props){
     const params = useParams()
     const [blog,setBlog]=useState({
@@ -14,7 +15,7 @@ export default function EditComponent(props){
     })
     const {title,author,slug}=blog
 
-    const [content,setContent]=useState('')
+    const [content,setContent]=useState()
 
     const inputValue=name=>event=>{
         setBlog({...blog,[name]:event.target.value})
@@ -27,7 +28,7 @@ export default function EditComponent(props){
         axios.get(`${process.env.REACT_APP_API}/blog/${params.slug}`).then(response=>{
             const {title,content,author,slug} = response.data
             setBlog({...blog,title,author,slug})
-            setContent(content)
+            setContent(content.toString())
         }).catch(err=>alert(err))
     }
 
@@ -58,14 +59,15 @@ export default function EditComponent(props){
     
      const submitForm=(e)=>{
         e.preventDefault();
-        console.log("API URL = ",process.env.REACT_APP_API)
-        axios.put(`${process.env.REACT_APP_API}/blog/${slug}`,{title,content,author,slug}).then(response=>{
+        console.log(getToken())
+        axios.put(`${process.env.REACT_APP_API}/blog/${slug}`,{title,content,author,slug},
+        {headers:{Authorization:`Bearer ${getToken()}` }}).then(response=>{
             Swal.fire({
                 title: "Notifyation",
                 text: "๊Update Data Successful",
                 icon: "success"
               });
-              const {title,content,author,slug}=response.data
+              const {title,content,author,slug}=response.data.updatedBlog
               setBlog({...blog,title,author,slug})
               setContent(content)
         }).catch(err=>{

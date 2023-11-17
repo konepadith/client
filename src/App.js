@@ -4,14 +4,13 @@ import { Link } from "react-router-dom";
 import swal from "sweetalert2"
 import parse from 'html-react-parser'
 import NavbarComponent from "./conponents/NavbarComponent";
-import { getUsername } from "./service/authorize";
+import { getUsername,getToken } from "./service/authorize";
 function App() {
   const [blogs, setBlogs] = useState([])
 
   const fetchData = () => {
     axios.get(`${process.env.REACT_APP_API}/blogs`).then(response => {
       setBlogs(response.data)
-      console.log(response.data)
     }).catch(err => alert(err))
   }
   useEffect(() => {
@@ -30,7 +29,9 @@ function App() {
     })
   }
   const deleteBlog=(slug)=>{
-    axios.delete(`${process.env.REACT_APP_API}/blog/${slug}`).then(response=>{
+    console.log(getToken())
+    axios.delete(`${process.env.REACT_APP_API}/blog/${slug}`,
+    {headers:{Authorization:`Bearer ${getToken()}` }}).then(response=>{
       if(response.status === 200) {swal.fire("Delete!","Delete Succesfully","success")}
       fetchData()
     }).catch(err => swal.fire("Not Found!","Document Not FOund","question"))
@@ -45,7 +46,7 @@ function App() {
         return <div className="row" key={index} style={{borderBottom:'1px solid silver'}}>
           <div className="col pt-3 pb-2">
             <Link to={`/blog/${blogs.slug}`}><h2>{blogs.title}</h2></Link>
-            <p>{parse(`${blogs.content.substring(0,180)}`)}</p>
+            <>{parse(`${blogs.content.substring(0,180)}`)}</>
             <p className="text-muted">Author: {blogs.author}, publish: {new Date(blogs.createdAt).toLocaleString()}</p>
             {
               getUsername() && (

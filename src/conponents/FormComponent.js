@@ -4,10 +4,11 @@ import Swal from 'sweetalert2'
 import ReactQuill from "react-quill"
 import "react-quill/dist/quill.snow.css"
 import NavbarComponent from "./NavbarComponent";
+import { getUsername,getToken } from "../service/authorize"
 export default function FormComponent(){
     const [blog,setBlog]=useState({
         title:"",
-        author:""
+        author:getUsername()
     })
     const inputValue=name=>event=>{
         setBlog({...blog,[name]:event.target.value})
@@ -23,7 +24,9 @@ export default function FormComponent(){
     }
     const submitForm=(e)=>{
         e.preventDefault();
-        axios.post(`${process.env.REACT_APP_API}/create`,{title,content,author}).then(response=>{
+        axios.post(`${process.env.REACT_APP_API}/create`,
+                    {title,content,author},
+                    {headers:{Authorization:`Bearer ${getToken()}` }}).then(response=>{
             Swal.fire({
                 title: "successfull",
                 text: "You clicked the button!",
@@ -33,7 +36,7 @@ export default function FormComponent(){
               setContent('')
         }).catch(err=>{
             Swal.fire({
-                title: "successfull",
+                title: "Error",
                 text: err.response.data.error,
                 icon: "error"
               });
